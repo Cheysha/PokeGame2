@@ -44,7 +44,22 @@ class TestGame(TestCase):
     game = Game(player1, player2)
 
     def test_player1_turn(self):
-        self.game.player1_turn
+        self.game.player1_turn()
+
+class TestPlayer(TestCase):
+    player = new_player('random')
+
+    def test_select_pokemon(self):
+        self.player.pokemon_list[0].current_hp = 0
+        self.player.pokemon_select()
+
+        assert self.player.current_pokemon in self.player.pokemon_list and not self.player.current_pokemon.is_fainted()
+
+    def test_move_select(self):
+        self.player.current_pokemon.moves[0].pp = 0
+        test = self.player.move_select()
+
+        assert test in self.player.current_pokemon.moves and test.can_use()
 
 
 

@@ -116,6 +116,11 @@ class Pokemon():
         self.current_hp = self.max_hp
         self.moves = []
 
+    def is_fainted(self):
+        if self.current_hp <= 0:
+            return True
+        return False
+
     def set_move(self, move):
         self.moves.append(move)
 
@@ -147,13 +152,15 @@ class Move():
         self.category = category
             # target, effect, priority, flags
 
+    def can_use(self):
+        if self.pp > 0:
+            return True
+        return False
+
     def __str__(self):
         return self.name
 
 
-'''
-    Trainer class, contains all the information about a trainer, bag, and items
-'''
 
 class Trainer():
     def __init__(self, name):
@@ -165,10 +172,60 @@ class Trainer():
         #self.money
     def add_pokemon(self, pokemon):
         self.pokemon_list.append(pokemon)
+
+    '''
+        menu for selecting pokemon, sets current pokemon to the selected pokemon
+    '''
+
+    def pokemon_select(self):
+
+        for pokemon in self.pokemon_list:
+            print(self.pokemon_list.index(pokemon), end=' ')
+            print(pokemon)
+
+        option = input('player1 input: ')
+
+        while option not in [str(i) for i in range(len(self.pokemon_list))]:
+            print('invalid input')
+            option = input('player1 input: ')
+
+        while self.pokemon_list[int(option)].is_fainted():
+            print('pokemon is fainted')
+            option = input('player1 input: ')
+
+        self.set_current_pokemon(self.pokemon_list[int(option)])
+
+        assert self.current_pokemon in self.pokemon_list and not self.current_pokemon.is_fainted()
+
+    def move_select(self):
+        for move in self.current_pokemon.moves:
+            print(self.current_pokemon.moves.index(move), end=' ')
+            print(move)
+
+        option = input('player1 input: ')
+
+        while option not in [str(i) for i in range(len(self.current_pokemon.moves))]:
+            print('invalid input')
+            option = input('player1 input: ')
+
+        while not self.current_pokemon.moves[int(option)].can_use():
+            print('move is out of pp')
+            option = input('player1 input: ')
+
+        return self.current_pokemon.moves[int(option)]
+
+
+
+
+
+
     def set_current_pokemon(self, pokemon):
         # pokemon must be in the list of pokemon
         if pokemon in self.pokemon_list:
             self.current_pokemon = pokemon
+
+
+
 
     def printpokemon(self):
         for pokemon in self.pokemon_list:
@@ -180,33 +237,3 @@ class Trainer():
 
 
 
-class Game():
-
-    def __init__(self, player1, player2):
-        self.player1 = player1
-        self.player2 = player2
-        self.turn = 1
-        self.player1_turn = True
-        self.player2_turn = False
-
-
-
-    def player1_turn(self):
-        print('player1 turn: ')
-        self.get_player1_input()
-    def player2_turn(self):
-        pass
-    def get_player1_input(self):
-        # print player1 current pokemon moves
-        print('player1 current pokemon: ', self.player1.current_pokemon.name)
-        print('player1 current pokemon moves: ')
-        for i in range(len(self.player1.current_pokemon.moves)):
-            print(i, self.player1.current_pokemon.moves[i].name)
-
-        option = input('player1 input: ')
-    def get_player2_input(self):
-        pass
-
-    def run(self):
-        while True:
-            pass
