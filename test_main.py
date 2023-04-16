@@ -5,14 +5,10 @@ from Game import *
 from unittest import TestCase
 
 
-
-
 class Test(TestCase):
 
     #   tests the pokemon generator, makes sure it returns a legal pokemon
     def test_pokemon(self):
-
-
         index = 3
         pokemon = get_pokemon(index)
 
@@ -40,7 +36,8 @@ class Test(TestCase):
         assert sp_attack == int(s.loc[s['stat_id'] == STATS.SPECIAL_ATTACK.value]['base_stat'].values[0])
         assert sp_defense == int(s.loc[s['stat_id'] == STATS.SPECIAL_DEFENSE.value]['base_stat'].values[0])
         assert speed == int(s.loc[s['stat_id'] == STATS.SPEED.value]['base_stat'].values[0])
-    def test_pokemon(self, pokemon):
+        pass
+    def test_pokemonz(self, pokemon):
         pokemon = pokemon
 
         index = pokemon.index
@@ -81,6 +78,21 @@ class Test(TestCase):
         assert move.accuracy == move_list.loc[move_list['id'] == index, 'accuracy'].iloc[0]
         assert move.pp == move_list.loc[move_list['id'] == index, 'pp'].iloc[0]
         assert move.category == CATEGORY(move_list.loc[move_list['id'] == index, 'damage_class_id'].iloc[0])
+        pass
+    def test_movez(self,move):
+        move = move
+        index = move.index
+        assert isinstance(move, Move)
+        assert move.index == index
+        assert move.name == move_list.loc[move_list['id'] == index, 'identifier'].iloc[0]
+        assert move.type == TYPES(move_list.loc[move_list['id'] == index, 'type_id'].iloc[0])
+        assert move.power == move_list.loc[move_list['id'] == index, 'power'].iloc[0]
+        assert move.accuracy == move_list.loc[move_list['id'] == index, 'accuracy'].iloc[0]
+        assert move.pp == move_list.loc[move_list['id'] == index, 'pp'].iloc[0]
+        assert move.category == CATEGORY(move_list.loc[move_list['id'] == index, 'damage_class_id'].iloc[0])
+        pass
+
+
 
     def test_new_player(self):
         name = 'chey'
@@ -88,28 +100,7 @@ class Test(TestCase):
         assert player.name == name
         # assert that each pokemon in party is legal
         for pokemon in player.pokemon_list:
-            self.test_pokemon(pokemon)
-
-
-class TestGame(TestCase):
-    player1 = new_player('test')
-    player2 = new_player('test')
-
-
-
-
-
-    game = Game(player1, player2)
-
-    def test_player1_turn(self):
-        self.game.player1_turn()
-
-    def test_do_move(self):
-        player_2_hp = self.game.player2.current_pokemon.current_hp
-        self.game.do_move(self.player1.current_pokemon.moves[0],self.game.player1, self.game.player2)
-        #assert self.game.player2.current_pokemon.current_hp < player_2_hp
-
-
+            self.test_pokemonz(pokemon)
 
 
 

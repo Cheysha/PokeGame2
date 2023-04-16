@@ -48,7 +48,9 @@ def get_pokemon(index):
     '''
         adding moves to our pokemon, will need completly redone to use get_move
     '''
-    #gets 4 random moves # generated_pokemon.moves.append(get_move(m.sample(1)['id'].values[0]))
+    #gets 4 random moves #
+    for i in range(4):
+        generated_pokemon.moves.append(get_move(m.sample(1)['id'].values[0]))
 
 
     ''' 
@@ -78,6 +80,7 @@ def get_move(index):
     return move
 
 def new_player(name):
+
     BAG_SIZE = 3
     def gen_random_trainer():
         player = Trainer(name='random')

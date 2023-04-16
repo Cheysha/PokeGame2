@@ -13,9 +13,44 @@ class Game():
     def player1_turn(self):
 
         while self.player1.current_pokemon.is_fainted():
-            self.player1.pokemon_select()
+            self.pokemon_select()
 
-        self.player1.move_select()
+        self.move_select()
+    def pokemon_select(self):
+
+        for pokemon in self.player1.pokemon_list:
+            print(self.player1.pokemon_list.index(pokemon), end=' ')
+            print(pokemon)
+
+        option = input('player1 input: ')
+
+        while option not in [str(i) for i in range(len(self.player1.pokemon_list))]:
+            print('invalid input')
+            option = input('player1 input: ')
+
+        while self.player1.pokemon_list[int(option)].is_fainted():
+            print('pokemon is fainted')
+            option = input('player1 input: ')
+
+        self.player1.set_current_pokemon(self.player1.pokemon_list[int(option)])
+
+    def move_select(self):
+        for move in self.player1.current_pokemon.moves:
+            print(self.player1.current_pokemon.moves.index(move), end=' ')
+            print(move)
+
+        option = input('player1 input: ')
+
+        while option not in [str(i) for i in range(len(self.player1.current_pokemon.moves))]:
+            print('invalid input')
+            option = input('player1 input: ')
+
+        while not self.player1.current_pokemon.moves[int(option)].can_use():
+            print('move is out of pp')
+            option = input('player1 input: ')
+
+        return self.player1.current_pokemon.moves[int(option)] # returns the move object
+
 
     def player2_turn(self):
         pass
@@ -62,12 +97,13 @@ class Game():
         while True:
             # fastest current pokemon goes first
             if self.player1.current_pokemon.speed > self.player2.current_pokemon.speed:
-                t1= self.player1_turn()
+                self.player1_turn()
 
-                t2 =self.player2_turn()
+                self.player2_turn()
             else:
-                t2= self.player2_turn()
-                t1= self.player1_turn()
+                self.player2_turn()
+
+                self.player1_turn()
 
             self.check_game()
             self.turn += 1

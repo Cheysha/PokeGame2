@@ -173,46 +173,20 @@ class Trainer():
     def add_pokemon(self, pokemon):
         self.pokemon_list.append(pokemon)
 
+    def remaining_pokemon(self):
+        # return amount of pokemon that are not fainted
+        count = 0
+        for pokemon in self.pokemon_list:
+            if not pokemon.is_fainted():
+                count += 1
+        return count
+
+
     '''
         menu for selecting pokemon, sets current pokemon to the selected pokemon
     '''
 
-    def pokemon_select(self):
 
-        for pokemon in self.pokemon_list:
-            print(self.pokemon_list.index(pokemon), end=' ')
-            print(pokemon)
-
-        option = input('player1 input: ')
-
-        while option not in [str(i) for i in range(len(self.pokemon_list))]:
-            print('invalid input')
-            option = input('player1 input: ')
-
-        while self.pokemon_list[int(option)].is_fainted():
-            print('pokemon is fainted')
-            option = input('player1 input: ')
-
-        self.set_current_pokemon(self.pokemon_list[int(option)])
-
-        assert self.current_pokemon in self.pokemon_list and not self.current_pokemon.is_fainted()
-
-    def move_select(self):
-        for move in self.current_pokemon.moves:
-            print(self.current_pokemon.moves.index(move), end=' ')
-            print(move)
-
-        option = input('player1 input: ')
-
-        while option not in [str(i) for i in range(len(self.current_pokemon.moves))]:
-            print('invalid input')
-            option = input('player1 input: ')
-
-        while not self.current_pokemon.moves[int(option)].can_use():
-            print('move is out of pp')
-            option = input('player1 input: ')
-
-        return self.current_pokemon.moves[int(option)] # returns the move object
 
 
     def set_current_pokemon(self, pokemon):
