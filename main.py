@@ -48,10 +48,8 @@ def get_pokemon(index):
     '''
         adding moves to our pokemon, will need completly redone to use get_move
     '''
-    for i in range(4): #gets 4 random moves
-        temp = m.sample(1)['identifier'].values[0]
-        move = get_move(temp)
-        generated_pokemon.set_move(move)
+    #gets 4 random moves # generated_pokemon.moves.append(get_move(m.sample(1)['id'].values[0]))
+
 
     ''' 
         returning our pokemon
@@ -59,19 +57,23 @@ def get_pokemon(index):
 
     return generated_pokemon
 def get_move(index):
-    if type(index) == str:
-        index = index.lower()
-        # replace spaces with -
-        index = index.replace(' ', '-')
-        index = int(move_list.loc[move_list['identifier'] == index]['id'].values[0])
+    # Check if index is a string that can be converted to an integer
+    if isinstance(index, str) and index.isdigit():
+        index = int(index)
 
-    index = int(index)
+    # Look up move data from move_list
+    move_data = move_list.loc[move_list['id'] == index].iloc[0]
 
-    m = move_list.loc[move_list['id'] == index]
-
-    move = Move(name=m['identifier'].values[0], index=int(m['id'].values[0]), type=TYPES(m['type_id'].values[0]),
-                power=m['power'].values[0], accuracy=m['accuracy'].values[0], pp=m['pp'].values[0],
-                category=CATEGORY(m['damage_class_id'].values[0]))
+    # Create move object
+    move = Move(
+        name=move_data['identifier'],
+        index=move_data['id'],
+        type=TYPES(move_data['type_id']),
+        power=move_data['power'],
+        accuracy=move_data['accuracy'],
+        pp=move_data['pp'],
+        category=CATEGORY(move_data['damage_class_id'])
+    )
 
     return move
 
@@ -87,6 +89,14 @@ def new_player(name):
 
     if name == 'random':
         return gen_random_trainer()
+
+    if name == 'test':
+        player = Trainer(name='test')
+        player.add_pokemon(get_pokemon('bulbasaur'))
+        player.add_pokemon(get_pokemon('charmander'))
+        player.add_pokemon(get_pokemon('squirtle'))
+        player.set_current_pokemon(player.pokemon_list[0])
+        return player
 
     ''' 
         creating a new player

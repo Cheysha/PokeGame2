@@ -212,11 +212,7 @@ class Trainer():
             print('move is out of pp')
             option = input('player1 input: ')
 
-        return self.current_pokemon.moves[int(option)]
-
-
-
-
+        return self.current_pokemon.moves[int(option)] # returns the move object
 
 
     def set_current_pokemon(self, pokemon):
