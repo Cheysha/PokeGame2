@@ -7,20 +7,22 @@ import pandas as pd
     Global lists of all pokemon, moves, movesets, types, and stats, used to create pokemon
 '''
 
+BAG_SIZE = 3
+
 # a list of all available pokemon, contains Index, Name #height, weight,base_xp
-poke_list = pd.read_csv('Files/Pokemon/pokemon.csv')
+global_pokemon_frame = pd.read_csv('Files/Pokemon/pokemon.csv')
 
 # a list of all avalible moves
-move_list = pd.read_csv('Files/Moves/moves.csv')
+global_move_frame = pd.read_csv('Files/Moves/moves.csv')
 
 # a list of all movesets, pokeid to be crossed with move id in move_list
-moveset_list = pd.read_csv('Files/Pokemon/pokemon_moves.csv')
+global_moveset_frame = pd.read_csv('Files/Pokemon/pokemon_moves.csv')
 
 # a list of Pokemon and their types
-type_list = pd.read_csv('Files/Pokemon/pokemon_types.csv')
+global_type_frame = pd.read_csv('Files/Pokemon/pokemon_types.csv')
 
 # a list of pokemons stats by id, with effort, base
-stat_list = pd.read_csv('Files/Pokemon/pokemon_stats.csv')
+global_stat_frame = pd.read_csv('Files/Pokemon/pokemon_stats.csv')
 
 def is_valid_pokemon(pokemon):
     # if the pokemon is a number, check if it is in the range of pokemon
@@ -28,7 +30,7 @@ def is_valid_pokemon(pokemon):
         if 0 < int(pokemon) < 802:
             return True
 
-    if pokemon.lower() in poke_list['identifier'].values:
+    if pokemon.lower() in global_pokemon_frame['identifier'].values:
         return True
 
     return False
@@ -121,7 +123,7 @@ class Pokemon():
             return True
         return False
 
-    def set_move(self, move):
+    def add_move(self, move):
         self.moves.append(move)
 
     def __str__(self):
@@ -140,7 +142,6 @@ class Pokemon():
                 'Accuracy: ' + str(self.moves[2].accuracy), 'PP: ' + str(self.moves[2].pp), 'Category: ' + str(self.moves[2].category),
                 str(self.moves[3]),'Type : ', str(self.moves[3].type), 'Power: ' + str(self.moves[3].power),
                 'Accuracy: ' + str(self.moves[3].accuracy), 'PP: ' + str(self.moves[3].pp), 'Category: ' + str(self.moves[3].category))
-
 class Move():
     def __init__(self, name, index, type, power, accuracy, pp, category):
         self.name = name
@@ -159,8 +160,6 @@ class Move():
 
     def __str__(self):
         return self.name
-
-
 
 class Trainer():
     def __init__(self, name):
