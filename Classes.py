@@ -1,6 +1,7 @@
 from enum import Enum
 from math import floor
 
+
 import pandas as pd
 
 '''

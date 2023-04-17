@@ -82,7 +82,7 @@ class Game():
         attacker = move[0]
         move = move[1]
 
-        if move.category == CATEGORY.PHYSICAL:
+        if move.category == CATEGORY.PHYSICAL :
             L = attacker.level
             A = attacker.attack# moves will change bd ultimately
             D = defender.defense
@@ -93,9 +93,19 @@ class Game():
 
             damage = ((((2 * L) / 5)+2) * P * (A / D)) / 50 + 2 * S * T * Z
 
-            defender.current_hp -= damage
-            print(f'{attacker.name} used {move.name} on {defender.name} for {damage} damage')
-        else: return
+        elif move.category == CATEGORY.SPECIAL:
+            L = attacker.level
+            A = attacker.special_attack  # moves will change bd ultimately
+            D = defender.special_defense
+            P = move.power
+            S = 1.5 if attacker.type == move.type else 1  # STAB
+            T = 1  # type effectiveness
+            Z = 1  # random number between 0.85 and 1.00
+
+            damage = ((((2 * L) / 5) + 2) * P * (A / D)) / 50 + 2 * S * T * Z
+
+        defender.current_hp -= damage
+
 
     def Run(self):
         while True:
