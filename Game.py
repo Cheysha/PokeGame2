@@ -14,17 +14,20 @@ class Game():
         Player 1 turn
     '''
     def player1_turn(self):
-        p = self.player1.current_pokemon
 
         while self.player1.current_pokemon.is_fainted():
-            p = self.pokemon_select()
-            self.player1.current_pokemon = p
+            self.player1.current_pokemon = self.pokemon_select()
         m = self.move_select()
 
-        return p, m
+        return self.player1.current_pokemon, m
     def pokemon_select(self):
         for i, pokemon in enumerate(self.player1.pokemon_list):
-            print(i, pokemon)
+            print(i, pokemon, pokemon.type.name, pokemon.current_hp,'/', pokemon.max_hp, pokemon.status.name,
+                  'A: ', pokemon.attack, ' D: ', pokemon.defense, ' SpA: ', pokemon.special_attack,' SpD: ',pokemon.special_defense,
+                  'Speed: ', pokemon.speed)
+
+            for move in pokemon.moves:
+                print('    ', move.name,' | ','Type: ', move.type.name,' Power: ', move.power,' PP:',  move.pp)
 
         try:
             option = int(input('player1 input: '))
@@ -41,7 +44,7 @@ class Game():
         return self.player1.pokemon_list[option]
     def move_select(self):
         for i, move in enumerate(self.player1.current_pokemon.moves):
-            print(i, move)
+            print('    ', move.name,' | ','Type: ', move.type.name,' Power: ', move.power,' PP:',  move.pp)
 
         try:
             option = int(input('player1 input: '))

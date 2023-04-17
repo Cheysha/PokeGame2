@@ -106,7 +106,7 @@ def new_player(name):
             player.add_pokemon(generate_pokemon_from_index(random.randint(1, 340)))
             i += 1
 
-        elif is_valid_pokemon(player_input):
+        elif is_valid_pokemon_entry(player_input):
             player.add_pokemon(generate_pokemon_from_index(player_input))
             i += 1
 

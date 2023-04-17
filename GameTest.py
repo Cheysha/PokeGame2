@@ -9,22 +9,19 @@ from unittest import TestCase
 class GameTests(TestCase):
 
     trainer1 = Trainer('chey')
-    # add 3 pokemon to trainer1
     trainer1.add_pokemon(generate_pokemon_from_index(1))
     trainer1.add_pokemon(generate_pokemon_from_index(2))
     trainer1.add_pokemon(generate_pokemon_from_index(3))
     trainer1.current_pokemon = trainer1.pokemon_list[0]
 
     trainer2 = Trainer('rival')
-    # add 3 pokemon to trainer2
     trainer2.add_pokemon(generate_pokemon_from_index(4))
     trainer2.add_pokemon(generate_pokemon_from_index(5))
     trainer2.add_pokemon(generate_pokemon_from_index(6))
     trainer2.current_pokemon = trainer2.pokemon_list[0]
 
-
-
     game = Game(trainer1, trainer2)
+
 
     '''
           Game tests

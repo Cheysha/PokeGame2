@@ -25,7 +25,7 @@ global_type_frame = pd.read_csv('Files/Pokemon/pokemon_types.csv')
 # a list of pokemons stats by id, with effort, base
 global_stat_frame = pd.read_csv('Files/Pokemon/pokemon_stats.csv')
 
-def is_valid_pokemon(pokemon):
+def is_valid_pokemon_entry(pokemon):
     # if the pokemon is a number, check if it is in the range of pokemon
     if isinstance(pokemon, int):
         if 0 < int(pokemon) < 802:
@@ -170,38 +170,26 @@ class Trainer():
         #self.potions
         #self.pokeballs
         #self.money
-    def add_pokemon(self, pokemon):
-        self.pokemon_list.append(pokemon)
 
-    def remaining_pokemon(self):
-        # return amount of pokemon that are not fainted
-        count = 0
+    def is_out_of_pokemon(self):
         for pokemon in self.pokemon_list:
             if not pokemon.is_fainted():
-                count += 1
-        return count
+                return False
+        return True
 
 
     '''
         menu for selecting pokemon, sets current pokemon to the selected pokemon
     '''
 
-
-
-
+    def add_pokemon(self, pokemon):
+        self.pokemon_list.append(pokemon)
     def set_current_pokemon(self, pokemon):
         # pokemon must be in the list of pokemon
         if pokemon in self.pokemon_list:
             self.current_pokemon = pokemon
-
-
-
-
-    def printpokemon(self):
-        for pokemon in self.pokemon_list:
-            pokemon.__print__()
-            print('-------------------------------------------')
-
+        else:
+            return False
     def __str__(self):
         return self.name
 

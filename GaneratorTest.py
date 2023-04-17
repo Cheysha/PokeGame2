@@ -38,7 +38,6 @@ class GeneratorTest(TestCase):
         assert sp_attack == int(s.loc[s['stat_id'] == STATS.SPECIAL_ATTACK.value]['base_stat'].values[0])
         assert sp_defense == int(s.loc[s['stat_id'] == STATS.SPECIAL_DEFENSE.value]['base_stat'].values[0])
         assert speed == int(s.loc[s['stat_id'] == STATS.SPEED.value]['base_stat'].values[0])
-
     def test_move(self):
         # Test valid index
         index = random.randint(1, 100)
