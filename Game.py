@@ -1,5 +1,3 @@
-from Util import *
-from Classes import *
 from main import *
 
 class Game():
@@ -9,17 +7,18 @@ class Game():
         self.player2 = player2
         self.turn = 1
 
+    def trainer_turn(self, trainer):
+
+        while trainer.current_pokemon.is_fainted():
+            trainer.current_pokemon = self.pokemon_select()
+        m = self.move_select()
+
+        return trainer.current_pokemon, m
 
     '''
         Player 1 turn
     '''
-    def player1_turn(self):
 
-        while self.player1.current_pokemon.is_fainted():
-            self.player1.current_pokemon = self.pokemon_select()
-        m = self.move_select()
-
-        return self.player1.current_pokemon, m
     def pokemon_select(self):
         for i, pokemon in enumerate(self.player1.pokemon_list):
             print(i, pokemon, pokemon.type.name, pokemon.current_hp,'/', pokemon.max_hp, pokemon.status.name,
@@ -64,8 +63,6 @@ class Game():
     '''
         Player 2 turn
     '''
-    def player2_turn(self):
-        pass
     def get_player2_input(self):
         pass
 
@@ -75,15 +72,15 @@ class Game():
     '''
     def check_game(self):
         # check if either player has no pokemon left
-        if self.player1.pokemon_left() == 0:
+        if self.player1.is_out_of_pokemon():
             print('Player 2 wins!')
             exit()
-        elif self.player2.pokemon_left() == 0:
+        elif self.player2.is_out_of_pokemon():
             print('Player 1 wins!')
             exit()
     def do_move(self, *move, defender):
-        attacker = move[0]
-        move = move[1]
+        attacker = move[0][0]
+        move = move[0][1]
 
         if move.category == CATEGORY.PHYSICAL :
             L = attacker.level
@@ -107,24 +104,27 @@ class Game():
 
             damage = ((((2 * L) / 5) + 2) * P * (A / D)) / 50 + 2 * S * T * Z
 
-        defender.current_hp -= damage
+        defender.current_hp -= int(damage)
 
 
     def Run(self):
         while True:
+            Trainer1 = self.player1
+            Trainer2 = self.player2
+
             # fastest current pokemon goes first
-            if self.player1.current_pokemon.speed > self.player2.current_pokemon.speed:
-                player1_move = self.player1_turn()
-                player2_move = self.player2_turn()
+            if Trainer1.current_pokemon.speed > Trainer2.current_pokemon.speed:
+                player1_move = self.trainer_turn(Trainer1)
+                #player2_move = self.trainer_turn(Trainer2)
 
-                self.do_move(player1_move,self.player2.current_pokemon)
-                self.do_move(player2_move,self.player1.current_pokemon)
+                self.do_move(player1_move,defender=Trainer2.current_pokemon)
+                #self.do_move(player2_move,defender=self.player1.current_pokemon)
             else:
-                player2_move = self.player2_turn()
-                player1_move = self.player1_turn()
+                #player2_move = self.trainer_turn(Trainer2)
+                player1_move = self.trainer_turn(Trainer1)
 
-                self.do_move(player2_move,self.player1.current_pokemon)
-                self.do_move(player1_move,self.player2.current_pokemon)
+                #self.do_move(player2_move,defender=self.player1.current_pokemon)
+                self.do_move(player1_move,defender=Trainer2.current_pokemon)
 
             self.check_game()
             self.turn += 1

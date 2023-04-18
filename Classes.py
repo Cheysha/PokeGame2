@@ -25,8 +25,7 @@ global_type_frame = pd.read_csv('Files/Pokemon/pokemon_types.csv')
 # a list of pokemons stats by id, with effort, base
 global_stat_frame = pd.read_csv('Files/Pokemon/pokemon_stats.csv')
 
-def is_valid_pokemon_entry(pokemon):
-    # if the pokemon is a number, check if it is in the range of pokemon
+def is_valid_pokemon_entry(pokemon): # this can probaly be refacotred out
     if isinstance(pokemon, int):
         if 0 < int(pokemon) < 802:
             return True
@@ -161,7 +160,6 @@ class Move():
 
     def __str__(self):
         return self.name
-
 class Trainer():
     def __init__(self, name):
         self.name = name

@@ -1,7 +1,3 @@
-from main import *
-#from Classes import *
-import Classes
-from Util import *
 from Generators import *
 from Game import *
 from unittest import TestCase
@@ -79,7 +75,7 @@ class GameTests(TestCase):
 
 
     def test_pleyer1_turn(self):
-        t = self.game.player1_turn()
+        t = self.game.trainer_turn(self.trainer1)
 
         assert isinstance(t, tuple), \
             f"Player 1 turn is {t} but should be a tuple"
@@ -96,7 +92,7 @@ class GameTests(TestCase):
 
     def test_pleyer1_turn_no_health(self):
         self.game.player1.pokemon_list[0].current_hp = 0
-        t = self.game.player1_turn()
+        t = self.game.trainer_turn(self.trainer1)
 
         assert isinstance(t, tuple), \
             f"Player 1 turn is {t} but should be a tuple"
@@ -118,7 +114,7 @@ class GameTests(TestCase):
         # a way out of hte test
         self.game.player1.current_pokemon.moves[0].pp = 1
 
-        t = self.game.player1_turn()
+        t = self.game.trainer_turn(self.trainer1)
 
         assert isinstance(t, tuple), \
             f"Player 1 turn is {t} but should be a tuple"
@@ -147,8 +143,6 @@ class GameTests(TestCase):
 
         self.game.do_move(attacker, move, defender=defender)
 
-        assert initial_health > defender.current_hp, \
-            f"Pokemon {defender} did not take damage {initial_health}/{defender.current_hp}"
 
         if move.category == CATEGORY.PHYSICAL :
             L = attacker.level
@@ -160,6 +154,9 @@ class GameTests(TestCase):
             Z = 1 # random number between 0.85 and 1.00
 
             damage = ((((2 * L) / 5)+2) * P * (A / D)) / 50 + 2 * S * T * Z
+
+            assert initial_health > defender.current_hp, \
+                f"Pokemon {defender} did not take damage {initial_health}/{defender.current_hp}"
 
             assert defender.current_hp == initial_health - damage, \
                 f"Pokemon {defender} did not take the correct amount of damage, took {initial_health - defender.current_hp} but should have taken {damage}"
@@ -177,4 +174,9 @@ class GameTests(TestCase):
 
             assert defender.current_hp == initial_health - damage, \
                 f"Pokemon {defender} did not take the correct amount of damage, took {initial_health - defender.current_hp} but should have taken {damage}"
+
+    def test_run(self):
+        self.game.Run()
+
+
 
